@@ -7,10 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="/board/write" method="post">
+<form action="/controller/board/write" method="post">
 	<input type="text" name="title">
 	<input type="text" name="content">
-	<input type="submit" value="제출">
+	<input type="submit" value="제출" id="sub">
 </form>
+<a href="list">목록으로</a>
+
 </body>
 </html>

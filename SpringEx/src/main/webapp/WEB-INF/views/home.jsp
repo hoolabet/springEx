@@ -8,10 +8,11 @@
 </head>
 <body>
 <h1>
-	Hello world!  
+	Hello world!
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
-<a href="board/list">목록</a>
+<a href="board/list">글 목록</a>
+<a href="member/list">회원 목록</a>
 </body>
 </html>
