@@ -19,6 +19,9 @@
 			내용 :
 			<textarea name="content">${detail.content}</textarea>
 		</p>
+		<p>
+			작성자 : ${detail.name}
+		</p>
 		<p>작성일 : ${detail.regdate}</p>
 		<input type="submit" value="수정" formaction="/controller/board/modify">
 		<input type="submit" value="삭제" formaction="/controller/board/remove">

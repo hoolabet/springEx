@@ -1,5 +1,7 @@
 package org.hcm.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.hcm.model.BoardVO;
 import org.hcm.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.mysql.cj.Session;
 
 @Controller
 public class BoardController {
@@ -47,16 +51,27 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/modify", method = RequestMethod.POST)
-	public String modify(BoardVO bvo, RedirectAttributes rttr) {
-		bs.modify(bvo);
-		rttr.addAttribute("bno",bvo.getBno());
-		return "redirect:/board/detail";
+	public String modify(BoardVO bvo, RedirectAttributes rttr, HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		if(id.equals(bs.detail(bvo).getId())) {
+			bs.modify(bvo);
+			rttr.addAttribute("bno",bvo.getBno());
+			return "redirect:/board/detail";
+		}else {
+			rttr.addAttribute("bno",bvo.getBno());
+			return "redirect:/board/detail";
+		}
 	}
 	
 	@RequestMapping(value = "/board/remove", method = RequestMethod.POST)
-	public String remove(BoardVO bvo) {
-		bs.remove(bvo);
-		return "redirect:/board/list";
+	public String remove(BoardVO bvo, HttpSession session) {
+		String id = (String)session.getAttribute("id");
+		if(id.equals(bs.detail(bvo).getId())) {
+			bs.remove(bvo);
+			return "redirect:/board/list";
+		}else {
+			return "redirect:/board/list";
+		}
 	}
 	
 }

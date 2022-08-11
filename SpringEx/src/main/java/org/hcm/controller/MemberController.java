@@ -28,6 +28,7 @@ public class MemberController {
 	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
 	public String loginPOST(MemberVO mvo, HttpSession session) {
 		session.setAttribute("info", ms.login(mvo));
+		session.setAttribute("id", ms.login(mvo).getId());
 		if(session.getAttribute("info") == null) {
 			return "/member/login";
 		}else {
@@ -41,8 +42,14 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/signup", method = RequestMethod.POST)
-	public String signupPOST(MemberVO mvo) {
-		ms.signup(mvo);
+	public String signupPOST(MemberVO mvo, HttpSession session) {
+		session.setAttribute("error", false);
+		try {
+			ms.signup(mvo);
+		}catch (Exception e) {
+			session.setAttribute("error", true);
+			return "/member/signup";
+		}
 		return "/member/login";
 	}
 }

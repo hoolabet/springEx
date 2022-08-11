@@ -22,6 +22,7 @@ td {
 		<tr>
 			<td>no</td>
 			<td>title</td>
+			<td>name</td>
 			<td>regdate</td>
 			<td>view</td>
 		</tr>
@@ -29,11 +30,13 @@ td {
 			<tr>
 				<td>${list.bno}</td>
 				<td><a href="detail?bno=${list.bno}">${list.title}</a></td>
+				<td>${list.name}</td>
 				<td>${list.regdate}</td>
 				<td>${list.cnt}</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<a href="write">글쓰기</a>
+	<a href="/controller">홈으로</a>
 </body>
 </html>

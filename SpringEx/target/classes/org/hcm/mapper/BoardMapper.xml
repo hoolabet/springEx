@@ -5,8 +5,8 @@
 
 <mapper namespace="org.hcm.mapper.BoardMapper">
 	<insert id="write">
-		INSERT INTO board(title, content) 
-			VALUES(#{title},#{content})
+		INSERT INTO board(title, content, id, name) 
+			VALUES(#{title},#{content},#{id},#{name})
 	</insert>
 	
 	<select id="list" resultType="org.hcm.model.BoardVO">
