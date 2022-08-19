@@ -52,4 +52,17 @@ public class MemberController {
 		}
 		return "/member/login";
 	}
+	
+	@RequestMapping(value = "/member/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.setAttribute("info", null);
+		session.setAttribute("id", null);
+		return "/member/login";
+	}
+	
+	@RequestMapping(value = "/member/mypage", method = RequestMethod.GET)
+	public void mypage() {
+		
+	}
+	
 }

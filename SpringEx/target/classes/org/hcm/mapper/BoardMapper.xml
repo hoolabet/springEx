@@ -12,8 +12,110 @@
 	<select id="list" resultType="org.hcm.model.BoardVO">
 		SELECT
 			*
+		FROM(
+			SELECT 
+				*, 
+				ROW_NUMBER() OVER(ORDER BY bno DESC) as num
+			FROM 
+				BOARD
+    		ORDER BY
+				bno DESC
+		) add_rn_board
+		<![CDATA[
+		WHERE
+			num > (#{pageNum} - 1)*#{amount} and num <= #{pageNum}*#{amount}
+		]]>
+	</select>
+	
+	<select id="maxNum" resultType="int">
+		SELECT
+			MAX(num)
+		FROM(
+			SELECT 
+				*, 
+				ROW_NUMBER() OVER(ORDER BY bno DESC) as num
+			FROM 
+				BOARD
+    		ORDER BY
+				bno DESC
+		) add_rn_board
+	</select>
+	
+	<select id="listSearch" resultType="org.hcm.model.BoardVO">
+		SELECT
+			*
 		FROM
-			board
+			(
+			SELECT 
+				*, 
+				ROW_NUMBER() OVER(ORDER BY bno DESC) as num
+			FROM 
+				BOARD
+			<if test = "search != ''.toString">
+				<choose>
+					<when test="type == 't'.toString()">
+					WHERE
+						title LIKE CONCAT('%', #{search}, '%')
+					</when>
+					<when test="type == 'c'.toString()">
+					WHERE
+						content LIKE CONCAT('%', #{search}, '%')
+					</when>
+					<when test="type == 'tc'.toString()">
+					WHERE
+						title LIKE CONCAT('%', #{search}, '%')
+					OR
+						content LIKE CONCAT('%', #{search}, '%')
+					</when>
+					<otherwise>
+					WHERE
+						name LIKE CONCAT('%', #{search}, '%')
+					</otherwise>
+				</choose>
+			</if>
+    		ORDER BY
+				bno DESC
+		) add_rn_board
+		<![CDATA[
+		WHERE
+			num > (#{pageNum} - 1)*#{amount} and num <= #{pageNum}*#{amount}
+		]]>
+	</select>
+	
+	<select id="maxNumSearch" resultType="int">
+		SELECT
+			MAX(num)
+		FROM(
+			SELECT 
+				*, 
+				ROW_NUMBER() OVER(ORDER BY bno DESC) as num
+			FROM 
+				BOARD
+			<if test = "search != ''.toString">
+				<choose>
+					<when test="type == 't'.toString()">
+					WHERE
+						title LIKE CONCAT('%', #{search}, '%')
+					</when>
+					<when test="type == 'c'.toString()">
+					WHERE
+						content LIKE CONCAT('%', #{search}, '%')
+					</when>
+					<when test="type == 'tc'.toString()">
+					WHERE
+						title LIKE CONCAT('%', #{search}, '%')
+					OR
+						content LIKE CONCAT('%', #{search}, '%')
+					</when>
+					<otherwise>
+					WHERE
+						name LIKE CONCAT('%', #{search}, '%')
+					</otherwise>
+				</choose>
+			</if>
+    		ORDER BY
+				bno DESC
+		) add_rn_board
 	</select>
 	
 	<select id="detail" resultType="org.hcm.model.BoardVO">
@@ -24,6 +126,14 @@
 		WHERE
 			bno=#{bno}
 	</select>
+	<update id="count">
+		UPDATE
+			board
+		SET
+			cnt=cnt+1
+		WHERE
+			bno=#{bno}
+	</update>
 	
 	<update id="modify">
 		UPDATE
@@ -41,6 +151,28 @@
 			board
 		WHERE
 			bno=#{bno}
+	</delete>
+	
+	<select id="reply" resultType="org.hcm.model.ReplyVO">
+		SELECT
+			*
+		FROM
+			reply
+		WHERE
+			bno=#{bno}
+	</select>
+	
+	<insert id="writeRe">
+		INSERT INTO reply(bno, content, id, name) 
+			VALUES(#{bno},#{content},#{id},#{name})
+	</insert>
+	
+	<delete id="replyRemove">
+		DELETE
+		FROM
+			reply
+		WHERE
+			regdate=#{regdate}
 	</delete>
 	
 </mapper>

@@ -16,5 +16,6 @@
 		</p>
 		<input type="submit" value="로그인">
 	</form>
+	<a href="/controller">홈으로</a>
 </body>
 </html>

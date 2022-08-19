@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+${error}
 	<form action="/controller/member/signup" method="POST">
 		<p>
 			아이디 : <input type="text" name="id" maxlength="20">
